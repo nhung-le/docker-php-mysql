@@ -1,0 +1,28 @@
+version: '3.8'
+services:
+    php-environment:
+        container_name: php8
+        build:
+            context: .
+            dockerfile: ./containers/php8-apache/Dockerfile
+        depends_on:
+          - db
+        volumes:
+            - ./services/your_example_repository/:/var/www/html
+        extra_hosts:
+            - "local.example.com:127.0.0.1"
+        hostname: local.example.com
+        domainname: local     
+        ports:
+            - 8888:80    
+    db:
+        container_name: db
+        build:
+            context: .
+            dockerfile: ./containers/mysql/Dockerfile
+        environment:
+            MYSQL_ROOT_PASSWORD: g9BgLNdF
+        ports:
+            - "9906:3306"
+        volumes: 
+            - ./containers/mysql/db_data:/var/lib/mysql
